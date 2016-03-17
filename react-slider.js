@@ -214,7 +214,8 @@
         upperBound: 0,
         sliderLength: 0,
         value: value,
-        zIndices: zIndices
+        zIndices: zIndices,
+        isTouching: false
       };
     },
 
@@ -468,7 +469,8 @@
         startValue: this.state.value[i],
         startPosition: position,
         index: i,
-        zIndices: zIndices
+        zIndices: zIndices,
+        isTouching:true
       });
     },
 
@@ -482,7 +484,7 @@
 
     _onEnd: function (eventMap) {
       this._removeHandlers(eventMap);
-      this.setState({index: -1}, this._fireChangeEvent.bind(this, 'onAfterChange'));
+      this.setState({index: -1, isTouching: false}, this._fireChangeEvent.bind(this, 'onAfterChange'));
     },
 
     _onMouseMove: function (e) {
@@ -777,7 +779,8 @@
         React.createElement('div', {
             ref: 'slider',
             style: {position: 'relative'},
-            className: props.className + (props.disabled ? ' disabled' : ''),
+            className: props.className + (props.disabled ? ' disabled' : '') +
+              (state.isTouching ? ' touching' : '') ,
             onMouseDown: this._onSliderMouseDown,
             onClick: this._onSliderClick
           },
